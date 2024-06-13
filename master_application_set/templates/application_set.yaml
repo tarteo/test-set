@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: curq-master-application-set
+  namespace: argocd
+spec:
+  goTemplate: true
+  generators:
+    - git:
+        repoURL: git@github.com:tarteo/test-set.git
+        revision: main
+        files:
+          - path: application_sets/**/application_set.yaml
+  template:
+    metadata:
+      name: "{{ "{{ " }}.path.basename{{ " }}" }}"
+    spec:
+      project: "default"
+      source:
+        repoURL: git@github.com:tarteo/test-set.git
+        targetRevision: main
+        path: "{{ "{{ " }}.path.filename{{ " }}" }}"
+      destination:
+        name: in-cluster
+        namespace: "{{ "{{ " }}.path.basename{{ " }}" }}"
+      syncPolicy:
+        syncOptions:
+        - CreateNamespace=true
+        automated:
+          prune: false
+          selfHeal: false
