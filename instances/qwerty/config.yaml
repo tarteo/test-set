@@ -1,4 +1,0 @@
-
-helm: |
-  domain: "asdas"
-  modules: website
