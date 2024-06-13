@@ -1,0 +1,37 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: "default"
+  namespace: argocd
+spec:
+  goTemplate: true
+  generators:
+  - git:
+      repoURL: git@github.com/tarteo/test-set.git
+      revision: set-1
+      files:
+      - path: instances/**/config.yaml
+  template:
+    metadata:
+      name: "flavoured-odoo-{{ .path.basename }}"
+      labels:
+        applicationSet: "default"
+    spec:
+      project: "default"
+      source:
+        repoURL: git@github.com/tarteo/test-set.git
+        targetRevision: set-1
+        path: app
+        helm:
+          values: |
+            {{ .helm }}
+      destination:
+        name: in-cluster
+        namespace: "flavoured-odoo-{{ .path.basename }}"
+      syncPolicy:
+        syncOptions:
+        - CreateNamespace=true
+        automated:
+          prune: false
+          selfHeal: false
+        
