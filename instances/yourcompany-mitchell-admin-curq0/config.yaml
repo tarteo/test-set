@@ -1,0 +1,4 @@
+
+helm: |
+  domain: yourcompany-mitchell-admin-curq0.curq.k8s.onestein.eu
+  modules: website
