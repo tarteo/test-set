@@ -1,0 +1,4 @@
+
+helm: |
+  domain: azure-interior-curq.example.com
+  modules: website
