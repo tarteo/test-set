@@ -1,0 +1,4 @@
+
+helm: |
+  domain: yourcompany-mitchell-admin-curq6.example.com
+  modules: website
